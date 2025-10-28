@@ -1,14 +1,15 @@
 import e from 'express'
+import { adminLogin, adminSignup } from '../controllers/adminController.js'
 
 
 const router=e.Router()
 
 
 // sign up
-// router.post("/signup")
+router.post("/signup",adminSignup)
 
 // // login
-// router.put('/login')
+ router.put('/login',adminLogin)
 
 // // profile
 // router.get('/profile')

@@ -1,5 +1,5 @@
 import e from 'express'
-import { userSignup } from '../controllers/userController.js'
+import { UserLogin, userSignup } from '../controllers/userController.js'
 
 
 const router=e.Router()
@@ -9,7 +9,7 @@ const router=e.Router()
 router.post("/signup",userSignup)
 
 // login
-// router.put('/login')
+ router.put('/login',UserLogin)
 
 // // profile
 // router.get('/profile')

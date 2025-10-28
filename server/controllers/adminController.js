@@ -1,12 +1,13 @@
 import bcrypt from 'bcrypt'
 
 import { generateToken } from '../utils/token.js'
-import { User } from '../models/useModel.js';
+import { Admin } from '../models/adminModel.js'
 
 
-export const userSignup=async(req , res ,next)=>{
+
+export const adminSignup=async(req , res ,next)=>{
     try {
-console.log("signup hitted");
+
 
         // collect user data
         const {name,email,password,mobile,profilePic}=req.body
@@ -16,16 +17,16 @@ console.log("signup hitted");
             return res.status(400).json({message:"all fields required"})
         }
 
-        const userExist=await User.findOne({email})
+        const adminExist=await Admin.findOne({email})
         
-        if(userExist){
-            return res.status(400).json({message:"User already exist"})
+        if(adminExist){
+            return res.status(400).json({message:"admin already exist"})
         }
 
         // password hasing
         const hashedPassword=bcrypt.hashSync(password,10)
 
-        const newUser=new User({
+        const newAdmin=new Admin({
             name,
             email,
             password:hashedPassword,
@@ -33,13 +34,13 @@ console.log("signup hitted");
             profilePic
 
         })
-        await newUser.save()
+        await newAdmin.save()
     
 // generate token using id and role
 
-const token =generateToken(newUser._id,"user")
+const token =generateToken(newAdmin._id,"admin")
 res.cookie("token",token)
-        res.json({data:newUser,message:"signup success"})
+        res.json({data:newAdmin,message:"signup success"})
     } catch (error) {
 
         res.status(error.statusCode || 500).json({message:error.message || "internal server error"})
@@ -48,7 +49,7 @@ res.cookie("token",token)
 }
 
 
-export const UserLogin=async (req,res,next)=>{
+export const adminLogin=async (req,res,next)=>{
     try {
       
         // collect user data
@@ -60,30 +61,30 @@ export const UserLogin=async (req,res,next)=>{
         }
 
         // check user exist
-        const userExist = await User.findOne({email})
+        const adminExist = await Admin.findOne({email})
      
-        if(!userExist){
-            return res.status(404).json({message:"user not found"})
+        if(!adminExist){
+            return res.status(404).json({message:"admin not found"})
         }
     
         // password match with db
-        const passwordMatch = bcrypt.compareSync(password,userExist.password)
+        const passwordMatch = bcrypt.compareSync(password,adminExist.password)
 
         if(!passwordMatch){
             return res.status(401).json({message:"ivalid credentials"})
         }
 
 
-        if(!userExist.isActive){
+        if(!adminExist.isActive){
             return res.status(401).json({message:"user not exist"})
         }
         // token
 
 
-        const token =generateToken(userExist._id,"user")
+        const token =generateToken(adminExist._id,"admin")
         res.cookie("token",token)
 
-        res.json({ data:userExist,message :"login success"})
+        res.json({ data:adminExist,message :"login success"})
 
     } catch (error) {
          res.status(error.statusCode || 500).json({message:error.message || "internal server error"})
