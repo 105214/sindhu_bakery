@@ -40,6 +40,7 @@ export const adminSignup=async(req , res ,next)=>{
 
 const token =generateToken(newAdmin._id,"admin")
 res.cookie("token",token)
+
         res.json({data:newAdmin,message:"signup success"})
     } catch (error) {
 
@@ -84,6 +85,7 @@ export const adminLogin=async (req,res,next)=>{
         const token =generateToken(adminExist._id,"admin")
         res.cookie("token",token)
 
+        delete adminExist._doc.password
         res.json({ data:adminExist,message :"login success"})
 
     } catch (error) {

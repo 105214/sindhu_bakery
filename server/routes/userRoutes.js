@@ -1,5 +1,6 @@
 import e from 'express'
-import { UserLogin, userSignup } from '../controllers/userController.js'
+import { UserLogin, userLogout, userProfile, userProfileUpdate, userSignup } from '../controllers/userController.js'
+import { authUser } from '../midllewares/authUser.js'
 
 
 const router=e.Router()
@@ -11,17 +12,17 @@ router.post("/signup",userSignup)
 // login
  router.put('/login',UserLogin)
 
-// // profile
-// router.get('/profile')
+//  profile
+ router.get('/profile',authUser,userProfile)
 
 // // profile-edit
-// router.put('/update')
+router.put('/update',authUser,userProfileUpdate)
 
 // // profile deactive
 // router.put('/deactive')
 
 // // logout
-// router.put("/logout")
+ router.put("/logout",userLogout)
 
 // password-forgot
 

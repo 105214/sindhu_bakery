@@ -39,6 +39,10 @@ console.log("signup hitted");
 
 const token =generateToken(newUser._id,"user")
 res.cookie("token",token)
+
+
+     
+
         res.json({data:newUser,message:"signup success"})
     } catch (error) {
 
@@ -83,10 +87,52 @@ export const UserLogin=async (req,res,next)=>{
         const token =generateToken(userExist._id,"user")
         res.cookie("token",token)
 
+        // delete password from userexist
+        delete userExist._doc.password
         res.json({ data:userExist,message :"login success"})
+        // { 
+        // const {password,...withoutPassword}=userExist
 
+        // }
     } catch (error) {
          res.status(error.statusCode || 500).json({message:error.message || "internal server error"})
      
+    }
+}
+
+
+export const userProfile=async(req,res,next)=>{
+    try {
+        const userId= req.user.id
+
+        const userData=await User.findById(userId)
+
+        res.json({data:userData,message:"user profile fetched"})
+    } catch (error) {
+        res.status(error.statuscode || 500).json({message:error.message || "internal server error"})
+    }
+}
+
+
+export const userProfileUpdate=async(req,res,next)=>{
+    try {
+        const {name,email,password,mobile,profilePic}=req.body
+
+        const userId=req.user.id
+        const userData=await User.findByIdAndUpdate(userId,{name,email,password,mobile,profilePic},{new:true})
+
+        res.json({data:userData, message:"user profile fetched"})
+    } catch (error) {
+        res.status(error.statuscode || 500).json({message:error.message || "internal server error"})
+    }
+}
+
+
+export const userLogout=async(req,res,next)=>{
+    try {
+        res.clearCookie("token")
+        res.json({message:"user logout successfully"})
+    } catch (error) {
+        res.status(error.statuscode || 500).json({message:error.message || "internal server error"})
     }
 }
