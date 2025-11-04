@@ -1,6 +1,7 @@
 import e from 'express'
-import { UserLogin, userLogout, userProfile, userProfileUpdate, userSignup } from '../controllers/userController.js'
+import { checkUser, UserLogin, userLogout, userProfile, userProfileUpdate, userSignup } from '../controllers/userController.js'
 import { authUser } from '../midllewares/authUser.js'
+import { authAdmin } from '../midllewares/authAdmin.js'
 
 
 const router=e.Router()
@@ -19,7 +20,7 @@ router.post("/signup",userSignup)
 router.put('/update',authUser,userProfileUpdate)
 
 // // profile deactive
-// router.put('/deactive')
+ router.put('/deactive/:userId',authAdmin)
 
 // // logout
  router.put("/logout",userLogout)
@@ -29,5 +30,6 @@ router.put('/update',authUser,userProfileUpdate)
 // address update
 
 // check user
+router.get("/check-user",authUser,checkUser)
 
 export {router as userRouter}

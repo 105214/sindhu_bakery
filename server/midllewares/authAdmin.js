@@ -14,14 +14,14 @@ export const authAdmin=(req,res,next)=>{
         }
         
         // decoded token
-        const decodedToken= jwt.verify(token,process.env.JWT_SECRETkEY)
+        const decodedToken= jwt.verify(token,process.env.JWT_SECRETKEY)
 
         if(!decodedToken){
            return res.status(401).json({message:"Admin not authorized"}) 
         }
         
         
-        if(decodedToken != "admin"){
+        if(decodedToken.role !== "admin"){
             return res.status(401).json({message:"Admin not authorized"}) 
 
         }

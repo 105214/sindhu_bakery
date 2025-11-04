@@ -105,7 +105,7 @@ export const userProfile=async(req,res,next)=>{
     try {
         const userId= req.user.id
 
-        const userData=await User.findById(userId)
+        const userData=await User.findById(userId).select("-password")
 
         res.json({data:userData,message:"user profile fetched"})
     } catch (error) {
@@ -134,5 +134,13 @@ export const userLogout=async(req,res,next)=>{
         res.json({message:"user logout successfully"})
     } catch (error) {
         res.status(error.statuscode || 500).json({message:error.message || "internal server error"})
+    }
+}
+
+export const checkUser = async(req,res,next)=>{
+    try {
+        res.json({message:"user authorized"})
+    } catch (error) {
+         res.status(error.statuscode || 500).json({message:error.message || "internal server error"})
     }
 }
