@@ -1,11 +1,11 @@
-import { Schema,Types,model } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 
 
-const cartSchema= new Schema(
+const cartSchema= new mongoose.Schema(
     {
         userId:{
-            Type:Schema.Types.ObjectId,
+            type:Schema.Types.ObjectId,
             ref:"User",
             required:true,
         },
@@ -45,4 +45,4 @@ const cartSchema= new Schema(
    }
 
 
-   export const Cart = model("Cart",cartSchema)
+   export const Cart =mongoose.model("Cart",cartSchema)
