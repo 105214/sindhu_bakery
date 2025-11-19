@@ -70,3 +70,19 @@ export const deleteReview = async (req,res,next)=>{
          res.status(500).json({message:"internal server error",error})
     }
 }
+
+export const averageRating = async(req,res,next)=>{
+
+    try {
+        const {productId} = req.params
+
+        const reviews = await Review.find({productId})
+
+        if(!reviews.length){
+            return res.status(404).json({message:"Average rating fetched"})
+        }
+        
+    } catch (error) {
+        res.status(500).json({message:"internal server error",error})
+    }
+}

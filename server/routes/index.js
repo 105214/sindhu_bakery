@@ -4,6 +4,7 @@ import { adminRouter } from './adminRoutes.js';
 import { productRouter } from './productRoutes.js';
 import { cartRouter } from './cartRoutes.js';
 import { reviewRouter } from './reviewRoutes.js';
+import { orderRoutes } from './orderRoutes.js';
 
 const router = e.Router()
 
@@ -17,4 +18,5 @@ router.use("/cart",cartRouter)
 
 router.use('/review',reviewRouter)
 
+router.use('order',orderRoutes)
 export {router as apiRouter} 
